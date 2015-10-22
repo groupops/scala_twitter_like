@@ -1,0 +1,12 @@
+@(message: String)
+
+@main("Welcome to Play") {
+
+    @message
+
+    <form action="@routes.Application.login()" method="post">
+        <label>Who are you?</label>
+        <input name="name" type="text">
+    </form>
+
+}
