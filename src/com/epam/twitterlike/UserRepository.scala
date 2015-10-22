@@ -4,8 +4,8 @@ import java.io.{File, PrintWriter, FileWriter}
 
 class UserRepository {
 
-  var usersFile = new FileWriter("Users.txt", true)
-  val writer = new PrintWriter(usersFile)
+  var file = new FileWriter("Users.txt", true)
+  val writer = new PrintWriter(file)
 
   def save(user: User) {
     writer.println(user.getId.toString)

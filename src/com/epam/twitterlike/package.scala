@@ -1,5 +1,8 @@
 package com.epam
 
+import java.io.{PrintWriter, FileWriter}
+
+
 import scala.io.Source
 
 /*
@@ -11,21 +14,30 @@ import scala.io.Source
 
 package object twitterlike {
 
+  val users = List[User] (
+      new User(1, "Goose", List.empty),
+      new User(2, "Duck", List.empty),
+      new User(3, "Fox", List.empty))
 
-  val users = List[User](
-                          new User(1, "Goose", List.empty),
-                          new User(2, "Duck", List.empty),
-                          new User(3, "Fox", List.empty))
+  val messages = List[Message] (
+      new Message(users.head, "Greeting", "Hello"),
+      new Message(users.head, "Greeting", "I'm going to work"),
+      new Message(users.head, "Greeting", "I wona rock after the work")
+  )
+
   val userRepository = new UserRepository
+  val messageRepository = new MessageRepository
 
   def main (args: Array[String]) {
 
-    //Source.fromFile("Language.java")
+    //Source.fromFile("User.txt")
 
     userRepository.save(users)
+
+    for (message <- messages) {
+      messageRepository.add(message)
+    }
   }
 
-  def add(message: Message) {
 
-  }
 }
