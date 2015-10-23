@@ -1,18 +1,11 @@
 package com.epam.twitterlike
 
-import java.io.{File, PrintWriter, FileWriter}
+import java.io.{File, FileWriter, PrintWriter}
 
 class UserRepository {
 
   var file = new FileWriter("Users.txt", true)
   val writer = new PrintWriter(file)
-
-  def save(user: User) {
-    writer.println(user.getId.toString)
-    writer.println(user.getName.toString)
-    writer.flush()
-    createWall(user.getName)
-  }
 
   /*
   * Used for manually adding bunch of users
@@ -23,6 +16,13 @@ class UserRepository {
       save(user)
       createWall(user.getName)
     }
+  }
+
+  def save(user: User) {
+    writer.println(user.getId.toString)
+    writer.println(user.getName.toString)
+    writer.flush()
+    createWall(user.getName)
   }
 
   private def createWall(prefix: String) {
