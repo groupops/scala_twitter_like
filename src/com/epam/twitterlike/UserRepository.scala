@@ -8,10 +8,14 @@ class UserRepository {
   val writer = new PrintWriter(file)
 
   def save(user: User) {
-    writer.println(user.getId.toString)
     writer.println(user.getName.toString)
     writer.flush()
     createWall(user.getName)
+  }
+
+  def addFollower(leader: User, follower: User) {
+    writer.println("User " + leader.getName + " started to followe:" + follower.getName)
+    writer.flush()
   }
 
   /*
