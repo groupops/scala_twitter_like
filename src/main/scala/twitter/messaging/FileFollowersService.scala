@@ -91,17 +91,17 @@ object FileFollowersService extends FollowersService {
   private def updateFollowersFile = {
     val printWriter: PrintWriter = new PrintWriter(FOLLOWERS_FILE_PATH)
     try {
-      val followersAccumulator: StringBuilder = new StringBuilder()
-      followers.foreach {
+      val followingAccumulator: StringBuilder = new StringBuilder()
+      following.foreach {
         (entry: (String, mutable.Set[String])) => {
           val user: String = entry._1
-          val followedUsers: mutable.Set[String] = entry._2
-          followersAccumulator ++= user
-          followersAccumulator ++= "="
-          followersAccumulator ++= followedUsers.mkString(",")
-          followersAccumulator ++= "\n"
-          printWriter.write(followersAccumulator.toString())
-          followersAccumulator.clear()
+          val followingUsers: mutable.Set[String] = entry._2
+          followingAccumulator ++= user
+          followingAccumulator ++= "="
+          followingAccumulator ++= followingUsers.mkString(",")
+          followingAccumulator ++= "\n"
+          printWriter.write(followingAccumulator.toString())
+          followingAccumulator.clear()
         }
       }
     } finally {
