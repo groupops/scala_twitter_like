@@ -1,17 +1,17 @@
 package com.epam.twitterlike
 
-import java.io.{PrintWriter, FileWriter}
+import scala.collection.mutable.ListBuffer
 
 class MessageRepository {
 
-  def add(message: Message) {
-    val path = message.getUser.getName + "Wall.txt"
-    val messageFile = new FileWriter(path, true)
-    val writer = new PrintWriter(messageFile)
+  var messages = new ListBuffer[Message]
 
-    writer.println(message.getUser.getName.toString)
-    writer.println(message.getTittle)
-    writer.println(message.getText + "\n")
-    writer.flush()
+  def add(user: User, tittle: String, test: String)  {
+    val message = new Message(user, tittle, test)
+    user.getBlog.addMessage(message)
+    messages += message
   }
+
+  def getOne(tittle: Int) = messages.apply(tittle)
+  def getAll = messages
 }

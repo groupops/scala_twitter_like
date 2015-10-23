@@ -1,35 +1,18 @@
 package com.epam.twitterlike
 
-import java.io.{File, FileWriter, PrintWriter}
+import scala.collection.mutable.ListBuffer
 
 class UserRepository {
 
-  var file = new FileWriter("Users.txt", true)
-  val writer = new PrintWriter(file)
+  var users: Map[String, User] = Map()
 
-  def save(user: User) {
-    writer.println(user.getName.toString)
-    writer.flush()
-    createWall(user.getName)
+  def save(name: String): User = {
+    val blog = new Blog(ListBuffer[Message]())
+    val user = new User(name, blog)
+    users = users.++(Map(name -> user))
+    user
   }
 
-  def addFollower(leader: User, follower: User) {
-    writer.println("User " + leader.getName + " started to followe:" + follower.getName)
-    writer.flush()
-  }
-
-  /*
-  * Used for manually adding bunch of users
-  * */
-  @Deprecated
-  def save(users: List[User]) {
-    for (user <- users) {
-      save(user)
-      createWall(user.getName)
-    }
-  }
-
-  private def createWall(prefix: String) {
-    new File(prefix + "Wall.txt").createNewFile()
-  }
+  def getOne (key: String) = users.apply(key)
+  def getAll = users
 }

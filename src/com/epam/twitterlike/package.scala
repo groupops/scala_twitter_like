@@ -1,41 +1,21 @@
 package com.epam
 
-import java.io.{PrintWriter, FileWriter}
-
-
-import scala.io.Source
-
-/*
-* 1 Create User
-* 2 User must have Wall
-* 3 Users can follow each other
-* 4 User should receive messages of followed users
-* */
-
 package object twitterlike {
-  
-  val users = List[User] (
-      new User("Goose"),
-      new User("Duck"),
-      new User("Fox"))
-
-  val messages = List[Message] (
-      new Message(users.head, "Greeting", "Hello"),
-      new Message(users.head, "Greeting", "I'm going to work"),
-      new Message(users.head, "Greeting", "I wona rock after the work")
-  )
 
   val userRepository = new UserRepository
   val messageRepository = new MessageRepository
 
+  // TODO: Implement followers, console or web interface
   def main (args: Array[String]) {
 
-    //Source.fromFile("User.txt")
+    val user = userRepository.save("Goose")
+    messageRepository.add(user, "Greeting", "Hello")
+    messageRepository.add(user, "Greeting", "I'm going to work")
+    messageRepository.add(user, "Greeting", "I wona rock after the work")
 
-    userRepository.save(users)
+/*    userRepository.getAll.foreach { println(_) }
+    messageRepository.getAll.foreach { println(_) }*/
 
-    for (message <- messages) {
-      messageRepository.add(message)
-    }
+    println(userRepository.getOne(user.getName).getBlog)
   }
 }
