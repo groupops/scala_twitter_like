@@ -6,24 +6,21 @@ import java.io.PrintWriter
 import scala.io.Source
 
 class FileOperation {
-    
-    val RELATIONS_FILE_NAME = "relations.txt";
-    
-    def readRelations(): List[String] = {
-        var relations = List[String]()
+    def readLinesFromFile(fileName:String): List[String] = {
+        var lines = List[String]()
 
-        Source.fromFile(RELATIONS_FILE_NAME).getLines().foreach { line =>
+        Source.fromFile(fileName).getLines().foreach { line =>
             if (!line.isEmpty()) {
                 val trimedLine = line.toString().trim()
-                relations = relations.::(trimedLine)
+                lines = lines.::(trimedLine)
             }
         }
-        return relations
+        return lines
     }
 
-    def writeRelations(relations: List[String]) {
-        val writer = new PrintWriter(new File(RELATIONS_FILE_NAME))
-        relations.foreach { line => writer.write(line) }
+    def writeLinesToFile(fileName:String, lines: List[String]) {
+        val writer = new PrintWriter(new File(fileName))
+        lines.foreach { line => writer.write(line + "\n")}
         writer.close()
     }
 }
