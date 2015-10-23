@@ -13,11 +13,11 @@ import scala.io.Source
 * */
 
 package object twitterlike {
-
+  
   val users = List[User] (
-      new User(1, "Goose", List.empty),
-      new User(2, "Duck", List.empty),
-      new User(3, "Fox", List.empty))
+      new User("Goose"),
+      new User("Duck"),
+      new User("Fox"))
 
   val messages = List[Message] (
       new Message(users.head, "Greeting", "Hello"),
@@ -38,6 +38,4 @@ package object twitterlike {
       messageRepository.add(message)
     }
   }
-
-
 }
