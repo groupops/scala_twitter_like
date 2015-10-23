@@ -1,5 +1,6 @@
 package twitter
 
+
 import scala.collection.mutable.ListBuffer
 
 class User(val name: String, val followers: ListBuffer[User]) {
