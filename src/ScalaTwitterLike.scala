@@ -4,13 +4,19 @@ class ScalaTwitterLike {
 
   val ROOT_DIR = "users\\"
   var username = ""
-  val followed = scala.collection.mutable.Set[User]()
+  var users = new UserRepository
 
   def run(): Unit = {
     initApp()
     joinAs(getUsername)
     showCommands()
     handleCommands()
+  }
+
+  def initApp(): Unit = {
+    print("Welcome to SCALA TWITTER LIKE")
+    prepareFileStorage()
+    users.initRepository()
   }
 
   def joinAs(username: String): Unit = {
@@ -20,7 +26,7 @@ class ScalaTwitterLike {
     }
     this.username = username
     println("Logged as: " + this.username)
-    new User(username)
+    users.addUser(new User(username))
   }
 
   def showCommands(): Unit = {
@@ -29,39 +35,6 @@ class ScalaTwitterLike {
     println("[P] publish message")
     println("[R] read all messages")
     println("[Q] quit application")
-  }
-
-  def follow(): Unit = {
-    print("Specify user: ")
-    val user = new User(getUserInput)
-    Writer.writeFollowed(username, user.toString())
-    println("User " + user + " added to followed")
-  }
-
-  def publish(): Unit = {
-    print("title: ")
-    val title = getUserInput
-    print("message: ")
-    val content = getUserInput
-    val message = new Message(title, content)
-    Writer.writeMessage(message, username)
-    println()
-    println(message.getMessage())
-    println()
-  }
-
-  def readAll(): Unit = {
-    Reader.readAllMessagesFor(username)
-  }
-
-  def getUserInput: String = {
-    io.StdIn.readLine()
-  }
-
-  def initApp(): Unit = {
-    print("Welcome to SCALA TWITTER LIKE")
-    if (!Files.isDirectory(Paths.get(ROOT_DIR)))
-      Files.createDirectory(Paths.get(ROOT_DIR))
   }
 
   def handleCommands(): Unit = {
@@ -77,18 +50,56 @@ class ScalaTwitterLike {
     }
   }
 
-  def getUsername: String = {
+  private def prepareFileStorage() = {
+    if (!Writer.directoryExists(ROOT_DIR)) {
+      Writer.createUsersDirectory(ROOT_DIR)
+      Writer.createUsersList(ROOT_DIR + "users.properties")
+    }
+  }
+
+  private def follow(): Unit = {
+    print("Specify user: ")
+    val user = new User(getUserInput)
+    if (users.findUser(user.username)) {
+      Writer.saveFollowed(username, user.username)
+      println("User " + user.username + " added to followed")
+    } else {
+      println("Unknown user")
+    }
+  }
+
+  private def publish(): Unit = {
+    print("title: ")
+    val title = getUserInput
+    print("message: ")
+    val content = getUserInput
+    val message = new Message(title, content)
+    Writer.writeMessage(message, username)
+    println()
+    println(message.getMessage())
+    println()
+  }
+
+  private def readAll(): Unit = {
+    Reader.readAllMessagesFor(username)
+  }
+
+  private def quitApp(): Unit = {
+    System.exit(0)
+  }
+
+  private def incorrectCommand(): Unit = {
+    println("Incorrect command")
+  }
+
+  private def getUsername: String = {
     println()
     print("Login as: ")
     getUserInput
   }
 
-  def quitApp(): Unit = {
-    System.exit(0)
-  }
-
-  def incorrectCommand(): Unit = {
-    println("Incorrect command")
+  private def getUserInput: String = {
+    io.StdIn.readLine()
   }
 
 }

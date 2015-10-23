@@ -1,5 +1,3 @@
-class User(username: String) {
-  override def toString(): String = {
-    username
-  }
+class User(val username: String) {
+
 }
